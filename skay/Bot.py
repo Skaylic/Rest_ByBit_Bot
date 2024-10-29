@@ -35,7 +35,7 @@ class Bot(ByBit):
         return self
 
     def is_position(self):
-        _ord = (db.query(Orders).filter(Orders.side == 'Buy', Orders.px < self.kline['close'], Orders.is_active == True)
+        _ord = (db.query(Orders).filter(Orders.side == 'Buy', Orders.profit < self.kline['close'], Orders.is_active == True)
                 .order_by(Orders.px).first())
         if _ord:
             return _ord
