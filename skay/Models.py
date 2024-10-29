@@ -1,5 +1,6 @@
+from email.policy import default
 from typing import Dict, Any
-from sqlalchemy import String, Integer, Float, Boolean
+from sqlalchemy import Column, String, Integer, Float, Boolean
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -20,23 +21,38 @@ class Base(DeclarativeBase):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
+# class Instruments(Base):
+#     __tablename__ = 'instruments'
+#     id = Column(Integer, primary_key=True)
+#     instId = Column(String, unique=True)
+#     instType = Column(String)
+#     minSz = Column(Float)
+#     lotSz = Column(Float)
+#     baseCcy = Column(String)
+#     quoteCcy = Column(String)
+#     state = Column(String)
+#
+#     def __repr__(self) -> str:
+#         return f"instId: {self.instId!r} MinSz: {self.minSz!r} State: {self.state!r}"
+
+
 class Orders(Base):
     __tablename__ = "orders"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    ordId: Mapped[int] = mapped_column(Integer)
-    cTime: Mapped[str] = mapped_column(String(30))
-    sz: Mapped[int] = mapped_column(Float)
-    px: Mapped[float] = mapped_column(Float)
-    grid_px: Mapped[float] = mapped_column(Float)
-    profit: Mapped[float] = mapped_column(Float, default=0.0)
-    fee: Mapped[float] = mapped_column(Float, default=0.0)
-    feeCurrency: Mapped[str] = mapped_column(String(30))
-    side: Mapped[str] = mapped_column(String(30))
-    symbol: Mapped[str] = mapped_column(String(30))
-    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-    category: Mapped[str] = mapped_column(String(30), default='')
-    status: Mapped[int] = mapped_column(String(30), default='')
-    tag: Mapped[str] = mapped_column(String(30), default='')
+    id = Column(Integer, primary_key=True)
+    ordId = Column(Integer)
+    cTime = Column(String)
+    sz = Column(Float)
+    px = Column(Float)
+    profit = Column(Float, default=0.0)
+    grid_px = Column(Float, default=0.0)
+    fee = Column(Float)
+    side = Column(String)
+    status = Column(String)
+    symbol = Column(String)
+    orderType = Column(String)
+    marketUnit = Column(String)
+    orderLinkId = Column(String)
+    is_active = Column(Boolean, default=True)
 
     def __repr__(self) -> str:
         return f"Side: {self.side!r} Px: {self.px!r} Sz: {self.sz!r} Active: {self.is_active!r}"

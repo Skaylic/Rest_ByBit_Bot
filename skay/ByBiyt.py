@@ -8,7 +8,7 @@ logger = logging.getLogger('SkayBot')
 class ByBit:
 
     def __init__(self):
-        logger.info("Bot started!")
+        logger.info("Bot is started!")
         self.api_key = os.getenv('API_KEY')
         self.api_secret = os.getenv('API_SECRET')
         self.session = None
@@ -89,14 +89,16 @@ class ByBit:
 
     def getOrderHistory(self, ordId=''):
         if not ordId:
-            ordId = self.orderId
-        r = self.session.get_order_history(
-            category="spot",
-            simbol=self.symbol,
-            orderId=ordId,
-        )
-        data = r['result']['list'][0]
-        data['category'] = r['result']['category']
-
-        self.order = data
-        return self
+            r = self.session.get_order_history(
+                category="spot",
+                simbol=self.symbol,
+                orderId=ordId,
+            )
+        else:
+            r = self.session.get_order_history(
+                category="spot",
+                simbol=self.symbol,
+                limit=50
+            )
+        data = r['result']['list']
+        return data

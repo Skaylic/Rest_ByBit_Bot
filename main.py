@@ -1,14 +1,13 @@
+import os
 from time import sleep
 from dotenv import load_dotenv
 import asyncio
 from skay.Logger import setup_logger
 from skay.Bot import Bot
-from pybit.exceptions import InvalidRequestError
-from websockets.exceptions import ConnectionClosedError
 
 load_dotenv()
 
-logger = setup_logger()
+logger = setup_logger(os.getenv("BOT_NAME"))
 
 bot = Bot()
 
