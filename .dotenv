@@ -1,0 +1,11 @@
+API_KEY="Api_key"
+API_SECRET="Api_secret"
+
+SYMBOL="ICPUSDT"
+COIN="ICP"
+INTERVAL=240
+#baseCoin
+QTY=0.15
+PERCENT=.5
+MIN=5
+MAX=10
