@@ -1,15 +1,13 @@
 import os
+import asyncio
 from dotenv import load_dotenv
-from time import sleep, strftime
-import logging
+from time import strftime
 from skay.ByBit import ByBit
 from skay.DataBase import DataBase
 from skay.Models import Orders
 
 
 load_dotenv()
-
-logger = logging.getLogger('SkayBot')
 db = DataBase().set_db()
 
 

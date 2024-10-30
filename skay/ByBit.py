@@ -2,13 +2,14 @@ import os
 import logging
 from pybit.unified_trading import HTTP
 
-logger = logging.getLogger('SkayBot')
+
 
 
 class ByBit:
 
     def __init__(self):
-        logger.info("Bot is started!")
+        self.logger = logging.getLogger(os.getenv("BOT_NAME"))
+        self.logger.info("Bot is started!")
         self.api_key = os.getenv('API_KEY')
         self.api_secret = os.getenv('API_SECRET')
         self.session = None
