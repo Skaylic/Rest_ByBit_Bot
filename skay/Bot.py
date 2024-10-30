@@ -1,7 +1,6 @@
 import os
-import asyncio
 from dotenv import load_dotenv
-from time import strftime
+from time import strftime, sleep
 from skay.ByBit import ByBit
 from skay.DataBase import DataBase
 from skay.Models import Orders
@@ -68,13 +67,17 @@ class Bot(ByBit):
         self.logger.info(_ord)
         return _ord
 
-    async def check(self):
+    def check(self):
         if not self.instruments:
             self.getInstruments()
         if not self.balance:
             self.getBalance()
+        self.grid_positions()
+
+    async def run(self):
+        self.logger.info("Bot is running!")
         while True:
-            self.grid_positions()
+            self.check()
             if len(self.kline) > 0:
                 self.array_grid(self.grid, float(self.kline['close']))
                 pos = self.is_position()
@@ -113,8 +116,4 @@ class Bot(ByBit):
                     else:
                         self.save_order(self.order, active=False)
                         self.order = None
-            await asyncio.sleep(1)
-
-    async def run(self):
-        self.logger.info("Bot is running!")
-        await asyncio.gather(self.ws_public(), self.ws_private(), self.check())
+            sleep(10)

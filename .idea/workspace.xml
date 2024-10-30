@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="728d03d4-ba97-4d5d-8982-a6461cdab3d4" name="Changes" comment="Update files">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/skay/Bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/skay/Bot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/skay/ByBit.py" beforeDir="false" afterPath="$PROJECT_DIR$/skay/ByBit.py" afterDir="false" />
     </list>
@@ -117,7 +118,7 @@
       <option name="presentableId" value="Default" />
       <updated>1730192147411</updated>
       <workItem from="1730192162777" duration="14840000" />
-      <workItem from="1730248313170" duration="1733000" />
+      <workItem from="1730248313170" duration="2307000" />
     </task>
     <task id="LOCAL-00001" summary="Update files">
       <option name="closed" value="true" />
@@ -183,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730249900306</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Update files">
+      <option name="closed" value="true" />
+      <created>1730250152069</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1730250152069</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

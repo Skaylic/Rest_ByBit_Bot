@@ -47,6 +47,16 @@ class ByBit:
         self.status = data['status']
         return self
 
+    def getBalance(self):
+        r = self.session.get_wallet_balance(
+            accountType="UNIFIED",
+        )
+        for i in r['result']['list'][0]['coin']:
+            if i['coin'] == self.quoteCoin:
+                self.balance[self.quoteCoin] = float(i['walletBalance'])
+            elif i['coin'] == self.baseCoin:
+                self.balance[self.baseCoin] = float(i['walletBalance'])
+
     def getKline(self):
         r = self.session.get_kline(
             category="spot",
@@ -58,22 +68,12 @@ class ByBit:
         self.kline = {"open": float(data[1]), 'close': float(data[4])}
         return self
 
-    def getBalance(self):
-        r = self.session.get_wallet_balance(
-            accountType="UNIFIED",
-        )
-        for i in r['result']['list'][0]['coin']:
-            if i['coin'] == self.quoteCoin:
-                self.balance[self.quoteCoin] = float(i['walletBalance'])
-            elif i['coin'] == self.baseCoin:
-                self.balance[self.baseCoin] = float(i['walletBalance'])
-
     def sendTicker(self, qty='', side="Buy", tag=''):
-        marketUnit = "baseCoin"
+        marketUnit = "quoteCoin"
         if not qty:
             qty = self.qty
         if side == "Sell":
-            marketUnit = "quoteCoin"
+            marketUnit = "baseCoin"
         r = self.session.place_order(
             category="spot",
             symbol=self.symbol,
