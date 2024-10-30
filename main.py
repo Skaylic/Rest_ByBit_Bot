@@ -15,7 +15,7 @@ bot = Bot()
 def run():
     try:
         bot.setSession()
-        bot.start()
+        bot.run()
     except KeyboardInterrupt:
         logger.info('Keyboard interrupt received, shutting down...')
     # except Exception as e:

@@ -72,15 +72,19 @@ class Bot(ByBit):
             self.getInstruments()
         if not self.balance:
             self.getBalance()
-        self.grid_positions()
+        if not self.grid:
+            self.grid_positions()
+        self.getKline()
+        self.getBalance()
 
-    async def run(self):
+    def run(self):
         self.logger.info("Bot is running!")
         while True:
             self.check()
             if len(self.kline) > 0:
                 self.array_grid(self.grid, float(self.kline['close']))
                 pos = self.is_position()
+                print(pos, self.kline['close'], self.kline['open'], self.grid_px, self.to_buy)
                 if float(self.kline['close']) > float(self.kline['open']) and self.to_buy == 0:
                     self.position_px = self.grid_px
                     self.to_buy = 1
@@ -88,16 +92,13 @@ class Bot(ByBit):
                     self.to_buy = 0
                 if pos and self.balance[self.baseCoin] > pos.sz and self.order is None:
                     self.sendTicker(round(pos.sz * float(self.kline['close']), 4), 'Sell', strftime('%Y%m%d%H%M%S'))
-                    self.getBalance()
                 elif pos and self.balance[self.baseCoin] < pos.sz and self.order is None:
-                    self.getBalance()
                     if self.balance[self.quoteCoin] > self.qty * float(self.kline['close']):
-                        self.sendTicker(self.qty, 'Buy')
+                        self.sendTicker(self.qty * 2 / float(self.kline['close']), 'Buy')
                 elif (pos is False and self.to_buy == 1 and float(self.kline['close']) > self.position_px
                       and self.order is None):
-                    self.getBalance()
                     if self.balance[self.quoteCoin] > self.qty * float(self.kline['close']):
-                        self.sendTicker(self.qty, 'Buy', strftime('%Y%m%d%H%M%S'))
+                        self.sendTicker(self.qty / float(self.kline['close']), 'Buy', strftime('%Y%m%d%H%M%S'))
                         self.position_px = self.grid_px
                 if self.order and self.order['orderId'] == self.orderId:
                     if self.order['orderLinkId'] and self.order['side'] == "Sell":
@@ -114,6 +115,10 @@ class Bot(ByBit):
                         self.save_order(self.order, active=True)
                         self.order = None
                     else:
+                        self.order['qty'] = float(self.order['qty']) - float(self.order['cumExecFee'])
+                        self.order['profit'] = float(self.order['avgPrice']) + (
+                                    float(self.order['avgPrice']) * self.percent / 100)
+                        self.order['grid_px'] = self.grid_px
                         self.save_order(self.order, active=False)
                         self.order = None
             sleep(10)
